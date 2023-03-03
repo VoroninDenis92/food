@@ -105,18 +105,23 @@ window.addEventListener('DOMContentLoaded', () => {
           modalCloseBtn = document.querySelector('[data-close]'),
           modal = document.querySelector('.modal');
     
-    modalTrigger.forEach(btn => {
-      btn.addEventListener('click', () => {
+    function openModal() {
         modal.classList.add('show');
         modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
-      });
+        clearInterval(modalTimerId);
+    }
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', openModal);
     });
 
+    
+
     function closeModal() {
-      modal.classList.add('hide');
-      modal.classList.remove('show');
-      document.body.style.overflow = '';
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
     }
 
     modalCloseBtn.addEventListener('click', closeModal);
@@ -132,25 +137,16 @@ window.addEventListener('DOMContentLoaded', () => {
         closeModal();
       }
     });
+
+    const modalTimerId = setTimeout(openModal, 5000);
+
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 });
 
-
-
-// function countSmileys(arr) {
-//   let str = `:;D)-~`;
-//   let fin = 0;
-//   for (let val of arr) {
-//     let count = 0;
-//     for (let i = 0; i < val.length; i++) {
-//       if (str.includes(val.at(i)), i) {
-//         count++;
-//       }
-//     }
-//     if (count == val.length) {
-//       fin++;
-//     }
-//   }
-//   return fin;
-// }
-
-// countSmileys([':)',':(',':D',':O',':;']  );
