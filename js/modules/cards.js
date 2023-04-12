@@ -1,3 +1,5 @@
+import { getResource } from "../services/services";
+
 function cards() {
     // Используем классы для создание карточек меню
 
@@ -10,7 +12,7 @@ function cards() {
             this.price = price;
             this.classes = classes;
             this.parent = document.querySelector(parentSelector);
-            this.transfer = 27;
+            this.transfer = 75;
             this.changeToUAH(); 
         }
 
@@ -35,7 +37,7 @@ function cards() {
                 <div class="menu__item-divider"></div>
                 <div class="menu__item-price">
                     <div class="menu__item-cost">Цена:</div>
-                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
                 </div>
             `;
             this.parent.append(element);
@@ -48,16 +50,6 @@ function cards() {
                 new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
             });
         });
-
-    async function getResource(url) {
-        let res = await fetch(url);
-    
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-        }
-    
-        return await res.json();
-    }
 }
 
-module.exports = cards;
+export default cards;
